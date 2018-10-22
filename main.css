@@ -1,0 +1,53 @@
+.app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main {
+    max-width:400px;
+    width: 50%;
+    margin: 10px 10px;
+    height: 100vh;
+    background-color: #e4d7d7;
+}
+
+.area{
+    margin-top: 100px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex: 4;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blocks{ 
+    background-color: #cebdbd;
+    width: 23.5%;
+    margin-right: 2px;
+    margin-bottom: 5px;
+    height: 80px; 
+    border-radius: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.blocks>span{
+    font-size: 43px;
+}
+
+.block-2{
+    background-color: aqua;
+}
+
+.block-4{
+    background-color: blue;
+}
+
+.block-8{
+    background-color: yellow;
+}
