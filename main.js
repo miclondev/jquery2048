@@ -1,12 +1,18 @@
 $('document').ready(function () {
 
+    //generate first random number between 1 and 16
     function randomNum() {
         let num = Math.floor(Math.random() * 16) + 1
         return num
     }
 
+    //generate second random number but check to make sure its not the same as rando number 1
+    //use recurssion to retry
+
     function generateNum2(check) {
+        //generate num 2
         var num2 = randomNum()
+        //check if num 2 i
         if (num2 === check) {
             console.log('is equal regenerating')
             var num3 = randomNum()
