@@ -31,6 +31,12 @@ function assignDomBlocks(value, i) {
   blocks[i].className = `blocks block-${value}`;
   blocks[i].childNodes[1].innerText = value;
 }
+
+const clearDomBlocks = i => {
+  blocks[i].className = `blocks`;
+  blocks[i].childNodes[1].innerText = null;
+};
+
 const assignIndex = (value, i) => (blocksValues[i] = value);
 
 ///assign to array
@@ -38,6 +44,8 @@ function onAssignArray() {
   blocksValues.forEach((value, i) => {
     if (value) {
       assignDomBlocks(value, i);
+    } else {
+      clearDomBlocks(i);
     }
   });
 }
@@ -81,42 +89,72 @@ function clearBlocks() {
 
 ///check the next blocks before end right
 
-function calculateRemainingBLocks(num) {
-  num = parseInt(num);
+function remainingRight(num) {
   let rb;
-  if (num === 1) {
-    rb = 3;
-  } else if (num == 2) {
-    rb = 2;
-  } else if (num == 3) {
+  if (num === 3) {
+    rb = 0;
+  } else if (num === 2) {
     rb = 1;
+  } else if (num === 1) {
+    rb = 2;
+  } else if (num === 0) {
+    rb = 3;
   }
   return rb;
 }
 
 function onMoveRight() {
   let currentBlocks = [];
-  let nextBlocks = [];
 
   //get the ones that need to be changed
   blocksValues.forEach(function(value, i) {
+    //console.log(value, i);
     if (value) {
-      nextBlocks.push(i + 1);
-      currentBlocks.push(i);
+      currentBlocks.push({ value, i });
     }
   });
 
-  console.log(currentBlocks, nextBlocks);
-  //clear current blocks
-  const rem = calculateRemainingBLocks(b % 4);
-  console.log(rem);
-  currentBlocks.forEach(b => {
-    if (!blocksValues[b + 1] || calculateRemainingBLocks(b % 4) > 0) {
-      assignIndex(null, b);
+  //clear current blocks if next is empty
+  // currentBlocks.forEach(b => {
+  //   const rem = remainingRight(b % 4);
+  //   console.log(rem);
+  //   if (!blocksValues[b + 1] || rem > 0) {
+  //     assignIndex(null, b);
+  //   }
+  // });
+
+  console.log(blocksValues);
+  currentBlocks.forEach(({ value, i }) => {
+    const r = remainingRight(i % 4);
+    console.log(value, i, r);
+
+    if (r !== 0) {
+      // if one of the next blocks is
+      let found = false;
+      for (let c = 1; c < r; c++) {
+        if (blocksValues[i + c] && blocksValues[i + c] === value) {
+          blocksValues[i] = null;
+          blocksValues[i + c] = value * 2;
+          found = true;
+          break;
+        } else if (blocksValues[i + c] && !blocksValues[i + c - 1]) {
+          blocksValues[i] = null;
+          blocksValues[i + c - 1] = value;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        blocksValues[i + r] = value;
+        blocksValues[i] = null;
+      }
     }
   });
 
   console.log(blocksValues);
+
+  onAssignArray();
+
   return;
   currentBlock.forEach(function(b) {
     //check if next one is same as current
